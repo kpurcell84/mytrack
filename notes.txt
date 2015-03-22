@@ -1,0 +1,40 @@
+Bugs:
+
+TO DO:
+
+
+Creds:
+	Domain: eecs485-08.eecs.umich.edu
+	Group Directory: /var/www/html/group78
+	Secret Key: utemnb
+	Port Number: 5678 5778
+	MySQL username: group78
+	MySQL password: fuckohio
+	MySQL database: group78
+
+Useful commands:
+
+	Use virtual environment (run in every terminal window before developing)
+		source venv/bin/activate
+
+	Run server:
+		python runserver.py
+
+	Deploy server locally:
+		cd app
+		gunicorn -b localhost:3000 -b localhost:3001 runserver:app
+
+	Deploy server on CAEN:
+		cd app
+		gunicorn -b eecs485-08.eecs.umich.edu:5678 -b eecs485-08.eecs.umich.edu:5778 -w 4 runserver:app
+
+	Build indexer/indexServer:
+		cd index
+		make
+
+	Run indexer:
+		./indexer captions.txt index.txt
+
+	Run indexServer:
+		./indexServer 6078 index.txt
+

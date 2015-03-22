@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+  <br><br><br>
+  <div class="page-header">
+    {% if not edit %}
+      <h1> {{ album.title }} </h1>
+      <h3> By: {{ album.username }} <br>
+            Access: {{ album.access }} <br>
+            Created: {{ album.created }} <br>
+            Last Updated: {{ album.lastupdated }}</h3>
+    {% else %}
+      <form action="" method="post">
+        <input type="hidden" name="op" value="update">
+        <button type="submit" class="btn btn-lg btn-info">Save Changes</button>
+        <br>
+        <br>
+        <input type="text" name="title" placeholder="Title" value="{{ album.title }}"><br>
+        <input type="radio" name="access" value="public" class="trigger"
+          {% if album.access=='public' %} 
+            checked="checked"
+          {%endif%}
+          > Public<br>
+        <input id="priv_radio" type="radio" name="access" value="private" class="trigger" 
+          {% if album.access=='private' %} 
+            checked="checked"
+          {%endif%}
+          > Private<br> 
+            <div id="p_access">
+            Users allowed to access:<br>
+            {% for user in users %}
+              <input type="checkbox" name="{{ user.username }}"
+              {% if user.username in acc_users_list %}
+                checked="checked"
+              {% endif %}
+              >
+                {{ user.username }} <br>
+            {% endfor %}
+            </div>
+            <script>
+              function displayPrivate() {
+                  if($('#priv_radio').is(":checked")) {
+                    $('#p_access').show();
+                  }
+                  else {
+                    $('#p_access').hide();
+                  }
+              }
+              $(displayPrivate)
+              $('.trigger').click(displayPrivate)
+            </script>
+      </form>
+      <h3> Add a new photo </h3>
+      <form action="" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="op" value="add">
+        <input type="hidden" name="albumid" value="{{ album.albumid }}">
+        <input type="file" name="file">
+        <br>
+        <input type="text" name="caption" placeholder="Caption">
+        <button type="submit" class="btn btn-md btn-success">Upload</button>
+      </form>
+    {% endif %}
+    
+  </div>
+  {% if album.username == session['username'] and not edit %} <!-- Only show back button if viewer is owner -->
+  <div class="row">
+    <div class="col-md-1">
+      <form method="get" action="{{ url_for('albums.albums_route') }}">
+        <input type="hidden" name="username" value="{{ album.username }}">
+        <button type="submit" class="btn btn-lg btn-info">Back</button>
+      </form>
+    </div>
+  {% endif %}
+  {% if album.username == session['username'] %} <!-- Only show edit button if viewer is owner -->
+    {% if not edit %}
+    <div class="col-md-1">
+      <form method="get" action="{{ url_for('album.album_edit_route') }}">
+        <input type="hidden" name="id" value="{{ album.albumid }}">
+        <button type="submit" class="btn btn-lg btn-warning">Edit Album</button>
+      </form>
+    </div> 
+  </div>
+    {% endif %}
+  {% endif %}
+  
+  <br>
+
+    {% for pic in pics %}
+    {% if loop.first or loop.index % 4 == 0 %}
+      <div class="row">
+    {% endif %}
+      <div class="col-xs-3">
+        {% if not edit %}
+        <div class="thumbnail">
+          <a href="{{ url_for('pic.pic_route', id=pic.picid) }}">
+            <img src="{{ pic.url }}" class="img-responsive thumbnail" height="200" width="200">
+          </a>
+          <div class="caption">
+            {% for caption in captions %}
+            {% if caption.picid == pic.picid %}
+            <p class="text-center" style="font-size:16px">{{caption.caption}}</p>
+            {% endif %}
+            {% endfor %}
+            <p class="text-center" style="font-weight:300">{{pic.date}}</p>
+          </div>
+        </div>
+        {% else %}
+        <div class="thumbnail" id="delete_thumbnail">
+          <a href="{{ url_for('pic.pic_route', id=pic.picid) }}">
+            <img src="{{ pic.url }}" class="img-responsive thumbnail" height="200" width="200">
+          </a>
+          <div class="caption" id="delete_pic">
+            <form method="post" action="{{ url_for('album.album_edit_route', id=album.albumid) }}">
+              <input type="hidden" name="op" value="delete">
+              <input type="hidden" name="albumid" value="{{ album.albumid }}">
+              <input type="hidden" name="picid" value="{{ pic.picid }}">
+              <button type="submit" class="btn btn-sm btn-danger" id="delete_pic_button"><span class="glyphicon glyphicon-remove">  Delete</span></button>
+            </form>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    {% if loop.last or loop.index % 4 == 0 %}
+      </div>
+      <br><br>
+    {% endif %}
+    {% endfor %}
+  <br>
+  
+
+{% endblock %}

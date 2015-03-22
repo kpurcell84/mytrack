@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<br><br><br><br>
+
+<div class="page-header">
+  <h1><span style="font-weight:300">{{ username }}'s</span> Albums</h1>
+</div>
+
+<div class="row">
+  <span class="col-md-3"></span>
+  <div class="col-md-6">
+    <table class="table">
+      <tbody>
+        {% for album in useralbums %}
+          <tr id="album_list_item">
+            <td style="vertical-align:middle">
+              <a href="{{ url_for('album.album_route', id=album.albumid) }}">
+                <h3 class="text-center">{{ album.title }}</h3>
+              </a>
+            </td>
+            {% if edit %}
+            <td style="vertical-align:middle">
+              <h4>
+              {% if album.access == 'public' %}
+                Public
+              {% else %}
+                Private
+              {% endif %}
+              </h4>
+            </td>
+            <td>
+              <form method="get" action="{{ url_for('album.album_edit_route') }}">
+                <input type="hidden" name="id" value="{{album.albumid}}">
+                <button type="submit" class="btn btn-lg btn-warning">Edit
+                </button>
+              </form>
+            </td>
+            <td>
+              <form method="post" action="{{ url_for('albums.albums_edit_route', username=username) }}">
+                <input type="hidden" name="op" value="delete">
+                <input type="hidden" name="albumid" value="{{album.albumid}}">
+                <button type="submit" class="btn btn-lg btn-danger">Delete
+                </button>
+              </form>
+            </td>
+           {% endif %}
+          </tr>
+        {% endfor %}
+        {% if edit %}
+        <tr>
+          <form action="" method="post">
+            <input type="hidden" name="username" value="{{username}}">
+            <input type="hidden" name="op" value="add">
+            <td colspan="2">
+              <input type="text" required name="title" class="form-control" placeholder="Album Title">
+            </td>
+            <td>
+              <button type="submit" class="btn btn-lg btn-success">Add</button>
+            </td>
+          </form>
+            
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-1">
+    {% if not edit %}
+    <form method="get" action="{{ url_for('index.index_route') }}">
+      <button type="submit" class="btn btn-lg btn-info">Back</button>
+    </form>
+  </div>
+    <div class="col-md-1 pull-right">
+      <form method="get" action="{{ url_for('albums.albums_edit_route') }}">
+        <input type="hidden" name="username" value="{{username}}">
+        <button type="submit" class="btn btn-lg btn-warning">Edit Albums</button>
+      </form>
+    </div>
+    {% else %}
+      <form method="get" action="{{ url_for('albums.albums_route') }}">
+        <input type="hidden" name="username" value="{{username}}">
+        <button type="submit" class="btn btn-lg btn-info">Done</button>
+      </form>
+  </div>
+    {% endif %}
+</div>
+{% endblock %}

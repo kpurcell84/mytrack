@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %} 
+  <br><br><br><br>
+
+  <form method="get" action="{{ url_for('album.album_route') }}">
+    <input type="hidden" name="id" value="{{ album.albumid }}">
+    <button type="submit" class="btn btn-lg btn-info">&lt;&lt; Back to album</button>
+  </form>
+  <br>
+  <br>
+  <img src="{{ pic.url }}" class="img-responsive center-block" id="fullscreen_pic">
+  <br>
+  <div class="text-center">
+    <h4 id="caption">{{ caption }}</h4>
+  </div>
+  <br>
+  <br>
+  <ul class="pager">
+    <li class="previous">
+      <form method="get" action="{{ url_for('pic.pic_route') }}">
+        <input type="hidden" name="id" value="{{ prevpic }}">
+        <button type="submit" class="btn btn-lg btn-info pull-left">&larr; Previous</button>
+      </form>
+    </li>
+    <li class="next">
+      <form method="get" action="{{ url_for('pic.pic_route') }}">
+        <input type="hidden" name="id" value="{{ nextpic }}">
+        <button type="submit" class="btn btn-lg btn-info pull-right">Next &rarr;</button>
+      </form>
+    </li>
+  </ul>
+{% endblock %}

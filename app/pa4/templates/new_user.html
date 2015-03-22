@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+	<br><br><br><br>
+  {% if message != None %}
+    {% if color == 'green' %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+    {% elif color == 'red' %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+    {% endif %}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      {{ message }}
+    </div>
+  {% endif %}
+  
+	<h2>Create a new account</h2>
+  <form action="" method="post" onsubmit="return password_validator(this);">
+    <p>
+      <input pattern="[a-zA-Z0-9'_']{3,}" required title="Username must be at least three characters and contain only letters, digits and underscores" type="text" name="username"
+      placeholder="Username" >
+    <p>
+      <input type="text" required name="firstname" min="3"placeholder="First Name">
+    <p>
+      <input type="text" required name="lastname" placeholder="Last Name">
+    <p>
+      <input type="email" required name="email" placeholder="Email">
+    <p>
+      <input type="password" pattern="(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9'_']{5,15}" required title="Password must be at least five characters and at most fifteen character, and must include one digit and one letter. A password can contain only letters, digits and underscores" name="password1" placeholder="Password" id="password1">
+    <p>
+      <input type="password" 
+      pattern="(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9'_']{5,15}" required title="Password must be at least five characters and at most fifteen character, and must include one digit and one letter. A password can contain only letters, digits and underscores"
+      name="password2" placeholder="Repeat Password" id="password2">
+    <p>
+      <input type="submit" value="Create Account">
+  </form>
+{% endblock %}

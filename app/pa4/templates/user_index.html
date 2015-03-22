@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+	<br><br><br><br>
+  {% if message != None %}
+    {% if color == 'green' %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+    {% elif color == 'red' %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+    {% endif %}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      {{ message }}
+    </div>
+  {% endif %}
+  
+    <div align="center" class="jumbotron">
+        <h1>Welcome <span style="font-weight: 300">{{ session['username'] }}</span></h1>
+        <p>AlbumMaster is a simple and easy to use web application which allows you to upload photos and share them with your friends.</p>
+
+    </div>
+    <div>
+      <h2 class="text-center">Available Albums</h2>
+      <br>
+      {% for username, albums in acc_albums.iteritems() %}
+      <div class="row">
+    	<div class="col-sm-12" align="center">
+        <div class="list-group">
+          <a class="list-group-item active">
+            <h4>Albums by <b> {{ username }}</b></h4>
+          </a>
+        	{% for album in albums %}
+        	 <a href="{{ url_for('album.album_route', id=album.albumid) }}" class="list-group-item"> <h4> {{ album.title }} </h4></a>
+        	
+        	{% endfor %}
+        </div>
+      </div><!-- /.col-sm-4 -->
+      </div>
+      {% endfor %}
+
+    
+    </div>
+
+   
+{% endblock %}

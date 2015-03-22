@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+	<br><br><br><br>
+	<h2>Edit account details</h2>
+  {% if message != None %}
+    {% if color == 'green' %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+    {% elif color == 'red' %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+    {% endif %}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      {{ message }}
+    </div>
+  {% endif %}
+  <form action="" method="post" onsubmit="return password_validator(this);">
+    <p>
+      <input type="text" name="firstname" required placeholder="First Name" value="{{user.firstname}}">
+    <p>
+      <input type="text" name="lastname" required placeholder="Last Name" value="{{user.lastname}}">
+    <p>
+      <input type="text" name="email" required placeholder="Email" value="{{user.email}}">
+    <p>
+      <input type="password" required name="cur_password" placeholder="Current Password" >
+    <p>
+      <input type="password" 
+      pattern="(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9'_']{5,15}" title="Password must be at least five characters and at most fifteen character, and must include one digit and one letter. A password can contain only letters, digits and underscores"
+      name="new_password1" placeholder="New Password" id="password1">
+    <p>
+      <input type="password" 
+      pattern="(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9'_']{5,15}" title="Password must be at least five characters and at most fifteen character, and must include one digit and one letter. A password can contain only letters, digits and underscores"
+      name="new_password2" placeholder="Repeat New Password" id="password2">
+    <p><input type="submit" value="Save Changes">
+  </form>
+  <br>
+  <form method="post" action="{{ url_for('user.user_delete_route') }}">
+    <button type="submit" class="btn btn-lg btn-danger">Delete Account</button>
+  </form>
+
+{% endblock %}

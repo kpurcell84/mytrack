@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+	<br><br><br><br>
+  {% if message != None %}
+    {% if color == 'green' %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+    {% elif color == 'red' %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+    {% endif %}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      {{ message }}
+    </div>
+  {% endif %}
+ 
+    <div align="center" class="jumbotron">
+        <h1>Welcome</h1>
+        <p>AlbumMaster is a simple and easy to use web application which allows you to upload photos and share them with your friends.  Log in, create a new account, or browse the public albums listed below.</p>
+
+    </div>
+    <div align="center">
+    	<div class="col-sm-12">
+          <div class="list-group">
+            <a class="list-group-item active">
+              <h2>Public Albums</h2>
+            </a>
+	        	{% for album in public_albums %}
+	        	 <a href="{{ url_for('album.album_route', id=album.albumid) }}" class="list-group-item"> <h2> <b>{{ album.title }}</b> by {{ album.username }} </h2></a>
+	        	
+	        	{% endfor %}
+          </div>
+        </div><!-- /.col-sm-4 -->
+    
+    </div>
+
+   
+{% endblock %}

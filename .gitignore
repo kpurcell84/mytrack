@@ -1,0 +1,7 @@
+venv/
+app/pa4/static/img/db/*
+*.pyc
+*.o
+index/indexer
+index/indexServer
+index/tmp
