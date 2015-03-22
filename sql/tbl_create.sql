@@ -1,9 +1,9 @@
 -- Erase existing schema and set up a new one
 
-DROP DATABASE if EXISTS group78;
-CREATE DATABASE group78;
+DROP DATABASE if EXISTS mytrack;
+CREATE DATABASE mytrack;
 
-USE group78;
+USE mytrack;
 
 CREATE TABLE User (
 	username VARCHAR(20) NOT NULL,

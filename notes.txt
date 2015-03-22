@@ -4,13 +4,9 @@ TO DO:
 
 
 Creds:
-	Domain: eecs485-08.eecs.umich.edu
-	Group Directory: /var/www/html/group78
-	Secret Key: utemnb
-	Port Number: 5678 5778
-	MySQL username: group78
+	MySQL username: mytrack
 	MySQL password: fuckohio
-	MySQL database: group78
+	MySQL database: mytrack
 
 Useful commands:
 

@@ -1,5 +1,5 @@
 venv/
-app/pa4/static/img/db/*
+app/mytrack/static/img/db/*
 *.pyc
 *.o
 index/indexer
